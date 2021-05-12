@@ -1,0 +1,8 @@
+<apex:page showHeader="hide" docType="html-5.0">
+    <h1>Hello</h1>
+    <body>
+        <apex:form >
+            <apex:input html-placeholder="Name"></apex:input>
+        </apex:form>
+    </body>
+</apex:page>

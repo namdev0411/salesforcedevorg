@@ -1,0 +1,9 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+    
+    <aura:attribute name="recordId" type="String" />
+    <lightning:card title="Display, Create, or Edit Records">
+        <lightning:recordForm recordId="{!v.recordId}"
+                              objectApiName="Account"
+                              fields="Name" />
+    </lightning:card>
+</aura:component>

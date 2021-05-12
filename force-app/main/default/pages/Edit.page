@@ -1,0 +1,15 @@
+<apex:page showHeader="false" sidebar="false" controller="AccountController" action="{!initRecordById}">
+	
+	<apex:form >
+		<apex:inputField value="{!currentRecord.Name}"/>
+		<apex:commandButton action="{!savRecord}" value="Save" oncomplete="afterSave()"/>
+	</apex:form>
+
+	<script type="text/javascript">
+		function afterSave(){
+			window.opener.reloadRecords();
+			window.close();
+		}
+	</script>
+
+</apex:page>
