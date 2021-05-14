@@ -1,0 +1,4 @@
+<design:component >
+    <design:attribute name="pageSize" label="Page Size"/>
+    <design:attribute name="sortOrder" label="Sort Order" description="Sort order include ASC or DESC" />
+</design:component>

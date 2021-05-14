@@ -1,0 +1,7 @@
+@media only screen and (max-width: 600px){
+    .slds-timeline__item_expandable.slds-is-open .slds-timeline__item_details{
+        width: 84% !important;
+        padding: 16px !important;
+        margin: 0px !important;
+    }
+}

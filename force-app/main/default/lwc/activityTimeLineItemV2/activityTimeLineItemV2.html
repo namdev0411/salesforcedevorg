@@ -1,0 +1,69 @@
+<template >
+    <article
+        if:true={isTask}
+        class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium"
+        id="task-item-expanded" aria-hidden="false"
+    >
+        <ul class="slds-list_horizontal slds-wrap">
+            <template for:each={item.detailFieldsDescribe} for:item="detail">
+                <li class="slds-grid slds-grid_vertical slds-size_1-of-1" key={detail.id}>
+                    <span class="slds-text-title">{detail.label}: {detail.value}</span>
+                </li>
+            </template>
+        </ul>
+    </article>
+    <article
+        if:true={isCall}
+        class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small"
+        id="call-item-expanded" aria-hidden="true"
+    >
+        <ul class="slds-list_horizontal slds-wrap">
+            <template for:each={item.detailFieldsDescribe} for:item="detail">
+                <li class="slds-grid slds-grid_vertical slds-size_1-of-1" key={detail.id}>
+                    <span class="slds-text-title">{detail.label}: {detail.value}</span>
+                </li>
+            </template>
+        </ul>
+    </article>
+    <article
+        if:true={isEmail}
+        class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small"
+        id="email-item-expanded" aria-hidden="true"
+    >
+        <ul class="slds-list_horizontal slds-wrap">
+            <template for:each={item.detailFieldsDescribe} for:item="detail">
+                <li class="slds-grid slds-grid_vertical slds-size_1-of-1" key={detail.id}>
+                    <span class="slds-text-title">{detail.label}: {detail.value}</span>
+                </li>
+            </template>
+            <br></br>
+        </ul>
+    </article>
+    <article
+        if:true={isEvent}
+        class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small"
+        id="event-item-expanded" aria-hidden="true"
+    >
+        <ul class="slds-list_horizontal slds-wrap">
+            <template for:each={item.detailFieldsDescribe} for:item="detail">
+                <li class="slds-grid slds-grid_vertical slds-size_1-of-1" key={detail.id}>
+                    <span class="slds-text-title">{detail.label}: {detail.value}</span>
+                    <br/>
+                </li>
+            </template>
+        </ul>
+    </article>
+    <article
+        if:true={isOther}
+        class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small"
+        id="event-item-expandedd" aria-hidden="true"
+    >
+        <ul class="slds-list_horizontal slds-wrap">
+            <template for:each={item.detailFieldsDescribe} for:item="detail">
+                <li class="slds-grid slds-grid_vertical slds-size_1-of-1" key={detail.id}>
+                    <span class="slds-text-title">{detail.label}: {detail.value}</span>
+                </li>
+            </template>
+        </ul>
+    </article>
+</template>

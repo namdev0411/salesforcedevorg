@@ -1,0 +1,25 @@
+<aura:component>
+    <aura:attribute name="detailFieldsDescribe" type="Object" access="public" />
+    <aura:attribute name="timeLineType" type="String" access="public" />
+
+    <aura:if isTrue="{! v.detailFieldsDescribe.type == 'STRING'}">
+                <span class="slds-text-title">{! v.detailFieldsDescribe.label} : {! v.detailFieldsDescribe.value}</span>
+    </aura:if>
+    <aura:if isTrue="{! v.detailFieldsDescribe.type == 'TEXTAREA'}">
+        <aura:if isTrue="{! v.timeLineType != 'EMAIL'}">
+                <span class="slds-text-title">{! v.detailFieldsDescribe.label} : <ui:outputTextArea  value="{! v.detailFieldsDescribe.value}"/></span>
+            <aura:set attribute="else">
+                <div class="slds-item_detail bodyText tenLinesScroll"><ui:outputTextArea  value="{! v.detailFieldsDescribe.value}"/></div>
+            </aura:set>
+        </aura:if>
+    </aura:if>
+    <aura:if isTrue="{! v.detailFieldsDescribe.type == 'DATETIME'}">
+        <span class="slds-text-title">{! v.detailFieldsDescribe.label} :
+            <ui:outputDateTime value="{! v.detailFieldsDescribe.value}" format="yyyy/MM/dd HH:mm"/>
+        </span>
+    </aura:if>
+    <aura:if isTrue="{! v.detailFieldsDescribe.type == 'REFERENCE'}">
+        <span class="slds-text-title">{! v.detailFieldsDescribe.label} : <a href="{! '/lightning/r/'+v.detailFieldsDescribe.relationTo.Id+'/view'}">{! v.detailFieldsDescribe.relationTo.Name}</a></span>
+    </aura:if>
+        
+</aura:component>

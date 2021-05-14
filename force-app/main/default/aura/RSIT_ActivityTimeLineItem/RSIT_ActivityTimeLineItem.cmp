@@ -1,0 +1,63 @@
+<aura:component>
+<!-- START ATTRIBUTE -->
+<aura:attribute name="timeLine" type="Object" access="public" />
+
+<!-- END ATTRIBUTE -->
+    <article class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium" id="task-item-expanded" aria-hidden="false">
+       <aura:if isTrue="{! v.timeLine.type == 'TASK'}">
+           <aura:if isTrue="{! v.timeLine.detailFieldsDescribe.length>0}">
+                <ul class="slds-list_horizontal slds-wrap">
+                    <aura:iteration items="{! v.timeLine.detailFieldsDescribe}" var="detailFieldsDescribe">
+                        <li class="slds-grid slds-grid_vertical slds-size_1-of-1">
+                            <c:RSIT_ActivityTimeLineField detailFieldsDescribe = "{! detailFieldsDescribe}" timeLineType = "{! v.timeLine.type}"/>
+                        </li>
+                    </aura:iteration>
+                </ul>
+           </aura:if>
+           
+       </aura:if>
+       <aura:if isTrue="{! v.timeLine.type == 'CALL'}">
+            <ul class="slds-list_horizontal slds-wrap">
+                <aura:iteration items="{! v.timeLine.detailFieldsDescribe}" var="detailFieldsDescribe">
+                    <li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-p-bottom_small">
+                        <c:RSIT_ActivityTimeLineField detailFieldsDescribe = "{! detailFieldsDescribe}" timeLineType = "{! v.timeLine.type}"/>
+                    </li>
+                </aura:iteration>
+            </ul>
+         
+        </aura:if>
+        <aura:if isTrue="{! v.timeLine.type == 'EVENT'}">
+            <aura:if isTrue="{! v.timeLine.detailFieldsDescribe.length>0}">
+                <ul class="slds-list_horizontal slds-wrap">
+                    <aura:iteration items="{! v.timeLine.detailFieldsDescribe}" var="detailFieldsDescribe">
+                        <li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-p-bottom_small">
+                            <c:RSIT_ActivityTimeLineField detailFieldsDescribe = "{! detailFieldsDescribe}" timeLineType = "{! v.timeLine.type}"/>
+                        </li>
+                    </aura:iteration>
+                </ul>
+           </aura:if>
+               
+        </aura:if>
+        <aura:if isTrue="{! v.timeLine.type == 'EMAIL'}">
+                <ul class="slds-list_horizontal slds-wrap">
+                    <aura:iteration items="{! v.timeLine.detailFieldsDescribe}" var="detailFieldsDescribe">
+                        <li class="slds-grid slds-grid_vertical slds-size_1-of-1" style="overflow: hidden;">
+                            <c:RSIT_ActivityTimeLineField detailFieldsDescribe = "{! detailFieldsDescribe}" timeLineType = "{! v.timeLine.type}"/>
+                        </li>
+                    </aura:iteration>
+                </ul>
+           
+        </aura:if>
+        <aura:if isTrue="{! v.timeLine.type == 'OTHER'}">
+            <aura:if isTrue="{! v.timeLine.detailFieldsDescribe.length>0}">
+                <ul class="slds-list_horizontal slds-wrap">
+                    <aura:iteration items="{! v.timeLine.detailFieldsDescribe}" var="detailFieldsDescribe">
+                        <li class="slds-grid slds-grid_vertical slds-size_1-of-1">
+                            <c:RSIT_ActivityTimeLineField detailFieldsDescribe = "{! detailFieldsDescribe}" timeLineType = "{! v.timeLine.type}"/>
+                        </li>
+                    </aura:iteration>
+                </ul>
+           </aura:if>
+        </aura:if>
+    </article>
+</aura:component>

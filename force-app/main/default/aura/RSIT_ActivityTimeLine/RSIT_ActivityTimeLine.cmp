@@ -1,0 +1,139 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasSObjectName,force:hasRecordId,force:lightningQuickAction" controller="RSIT_ActivityTimeLineController" access="global" >
+    
+<!-- START ATTRIBUTE -->
+<aura:attribute name="activityTimeLines" type="List" default="[]" />
+<aura:attribute name="timeLineSelected" type="List" default="[]" />
+<aura:attribute name="iconTimeLines" type="List" default="[]" />
+<aura:attribute name="actionOpen" type="String" default="" />
+<aura:attribute name="showModalDelete" type="Boolean" default="false" />
+<aura:attribute name="sobjecttype" type="String" default="{!v.sObjectName}"/>
+<aura:attribute name="timeLineId" type="String" default="" />
+<aura:attribute name="pageSize" type="String" access="global" default="5"/>
+<aura:attribute name="sortOrder" type="String" access="global" default="DESC"/>
+<aura:attribute name="actionName" type="String" default=""/>
+<aura:attribute name="loading" type="Boolean" default="false"/>
+<aura:attribute name="isLoadMore" type="Boolean" default="false"/>
+<aura:attribute name="actionId" type="String" default=""/>
+<aura:attribute name="scrollTopPosition" type="Integer" default="100"/>
+<aura:attribute name="recordId" type="String" />
+<!-- END ATTRIBUTE -->
+
+<aura:handler event="force:showToast" action="{!c.refreshData}" />
+<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+<aura:if isTrue="{! v.activityTimeLines.length > 0 }">
+<article class="slds-card">
+    <div class="slds-card__body slds-card__body_inner">
+        <aura:if isTrue="{! v.loading}">
+            <lightning:spinner alternativeText="Loading" variant="brand" />
+        </aura:if>
+        <ul class="slds-timeline">
+            <aura:iteration items="{!v.activityTimeLines}" var="timeLine" indexVar="index">
+            <li id="{! timeLine.id}">
+                <div id="{! timeLine.id + index}" class="{! 'slds-timeline__item_expandable '+timeLine.classTimeLine}"> 
+                    <span class="slds-assistive-text">{! timeLine.type}</span>
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <button class="slds-button slds-button_icon" data-id = "{! timeLine.id + index}" onclick="{! c.showDescriptionHandle}"  title="" aria-controls="task-item-expanded" aria-expanded="true">
+                                <lightning:icon iconName="utility:switch"  class="slds-button__icon slds-timeline__details-action-icon" size="xx-small" alternativeText="Indicates approval"/>
+                            </button>
+                            <div class="slds-icon_container slds-timeline__icon" title="task">
+                                <lightning:icon iconName="{! timeLine.iconName}" size="small" alternativeText="Indicates approval"/>
+                            </div>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                    
+                                    <h3 class="slds-truncate" title="{! timeLine.subject}">
+                                        <aura:if isTrue="{! timeLine.type !='EMAIL'}">
+                                            <a href="{! '/lightning/r/'+timeLine.id+'/view'}">
+                                                <strong>{! timeLine.subject}</strong>
+                                            </a>
+                                            <aura:set attribute="else">
+                                                <a href="javascript:void(0)" onclick="{!c.showEmailHandle}" data-id = "{! timeLine.id}" target="_blank">
+                                                    <strong>{! timeLine.subject}</strong>
+                                                </a>
+                                            </aura:set>
+                                        </aura:if>
+                                    </h3>
+                                </div>
+                                <div class="slds-timeline__actions slds-timeline__actions_inline">
+                                    <aura:if isTrue="{! or(timeLine.type == 'EVENT', timeLine.type == 'EMAIL')}">
+                                        <p class="slds-timeline__date">  <ui:outputDateTime value="{! timeLine.createdDate}" format="yyyy/MM/dd HH:mm"  /></p>
+                                    </aura:if>
+                                    <aura:if isTrue="{! and(timeLine.type != 'EMAIL',timeLine.type != 'EVENT')}">
+                                        <p class="slds-timeline__date">  <ui:outputDateTime value="{! timeLine.createdDate}" format="yyyy/MM/dd 00:00"  /></p>
+                                    </aura:if>
+                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small" style="position: relative;" data-id = "{! timeLine.id+index}" onclick="{! c.showAction}" onblur="{!c.hideAction}">
+                                        <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Indicates approval"/>
+                                        <span class="slds-assistive-text">More Options for this item</span>
+                                      
+                                    </button>
+                                    <div class="uiPopupTarget uiMenuList  uiMenuList--default" id="{! 'action-'+timeLine.id+index}" >
+                                        <div class="branding-actions actionMenu" role="menu" >
+                                           <ul class="scrollable" role="presentation" >
+                                                <aura:if isTrue="{! ( timeLine.type != 'EMAIL')}">
+                                                    <li role="presentation"  class="uiMenuItem" >
+                                                        <a href="javascript:void(0);" role="menuitem"  data-recordId="{! timeLine.id}" data-id="{! timeLine.id+index}" onclick="{! c.editHandle}" tabindex="0" title="編集">
+                                                            編集
+                                                        </a>
+                                                    </li>
+                                                </aura:if>
+                            
+                                                <li role="presentation" class="uiMenuItem">
+                                                    <a  href="javascript:void(0);" role="menuitem" data-recordId="{! timeLine.id}" data-id="{! timeLine.id +index}" onclick="{! c.openModalDeleteHandle}" tabindex="1" title="削除">
+                                                        削除
+                                                    </a>
+                                                </li>
+                                           </ul>
+                                        </div>
+                                     </div>
+                                   
+                                </div>
+                            </div>
+
+                            <c:RSIT_ActivityTimeLineItem  timeLine ="{! timeLine}"/>
+                        </div>
+                    </div>
+                </div>
+            </li>
+    
+            </aura:iteration>
+        </ul>
+        <aura:if isTrue="{! v.isLoadMore }">
+            <div class="slds-text-align_center">
+                <button class="slds-button slds-button_neutral showMoreButton" type="button" onclick="{! c.loadMoreHandle}">
+                    さらに表示
+                </button>
+            </div>
+            <aura:set attribute="else">
+                <div class="slds-text-body_regular slds-align_absolute-center">
+                    これ以上読み込む過去の活動はありません。
+                </div>
+            </aura:set>
+        </aura:if>
+        <aura:if isTrue="{! v.showModalDelete}">
+            <div role="dialog" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h1 class="slds-text-heading--medium">削除の確認</h1>
+                    </header>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <center><b>
+                        このアイテムを削除してもよろしいですか？</b></center>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button name='キャンセル' label='キャンセル' onclick='{!c.closeModalDeleteHandle}'/>
+                        <lightning:button variant="brand" name='削除' label='削除' onclick='{!c.handleDeleteRecord}'/>
+                    </footer>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>            
+        </aura:if>
+    </div>
+  </article>
+      
+</aura:if>
+ 
+</aura:component>

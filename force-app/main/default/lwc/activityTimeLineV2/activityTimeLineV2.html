@@ -1,0 +1,100 @@
+<template>
+    <ul class="slds-timeline　slds-p-vertical_medium">
+        <li for:each={activityData} for:item="item" key={item.id}>
+            <div data-id={item.id} class={item.classTimeLine}>
+                <span class="slds-assistive-text">{item.type}</span>
+                <div class="slds-media">
+                    <!-- <div class="slds-media__figure">
+                        <button 
+                            class="slds-button slds-button_icon"    
+                            onclick={toggleDetail} 
+                            data-id={item.id} 
+                            aria-controls="task-item-expanded"
+                            aria-expanded="true"
+                        >
+                            <lightning-icon icon-name="utility:switch"  class="slds-button__icon slds-timeline__details-action-icon" size="xx-small"></lightning-icon>
+                        </button>
+                        <div class="slds-icon_container slds-timeline__icon" title={item.type}>
+                            <lightning-icon icon-name={item.iconName} size="small" alternative-text={item.type} title={item.type}></lightning-icon>
+                        </div>
+                    </div> -->
+                    <div class="slds-media__figure">
+                        <button 
+                            class="slds-button slds-button_icon slds-timeline__details-action-icon"
+                            onclick={toggleDetail} data-id={item.id}
+                        >
+                            <lightning-icon icon-name="utility:chevrondown" size="x-small" alternative-text="chevrondown" title="chevrondown"></lightning-icon>
+                        </button>
+                        <lightning-icon icon-name={item.iconName} size="small" alternative-text={item.type} title={item.type}></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                            <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                <h3 class="truncate"
+                                    title="Review proposals for EBC deck with larger team and have marketing review this">
+                                    <a  href="#" class="subjectLink slds-truncate" target="_blank"
+                                        rel="noreferrer"
+                                        data-id={item.id}
+                                        onclick={navigateToActivityRecord}
+                                    >
+                                        <strong data-id={item.id}>{item.subject}</strong>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="slds-timeline__actions slds-timeline__actions_inline">
+                                <p class="slds-timeline__date">{item.createDate}</p>
+                                <button
+                                    class="edit-remove-btn slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small"
+                                    aria-haspopup="true"  data-id={item.id}
+                                    onclick={showOptions}>
+                                    <div class="slds-button__icon down-icon" aria-hidden="true">
+                                        <lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down" title="down"></lightning-icon>
+                                    </div>
+                                    <!-- Create Edit -->
+                                    <ul class="edit-remove-btn-model slds-tabs_card">
+                                        <li data-id={item.id} onclick={edit}>編集</li>
+                                        <li data-id={item.id} onclick={remove}>削除</li>
+                                    </ul>
+                                    <!-- Close Create Edit -->
+                                </button>
+                            </div>
+                        </div>
+                        <c-activity-time-line-item-v2
+                            item={item}
+                        ></c-activity-time-line-item-v2>
+                    </div>
+                </div>  
+            </div>
+        </li>
+        <button if:true={isCanLoadMore} class="loadmore-btn slds-button slds-button_neutral　slds-align_absolute-center" onclick={loadMore}>さらに表示</button>
+        <div if:false={isCanLoadMore} class="slds-text-body_regular slds-align_absolute-center">これ以上読み込む過去の活動はありません。</div>
+        <div if:true={isLoading} class="loading slds-align_absolute-center">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </ul>
+    <!--remove confirm-->
+    <lightning-card if:true={isShowRemoveConfirm}>
+        <div class="slds-container_small">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container remove-confirm-form">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Remove Activity Item</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>Are you sure ?</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="neutral" name="cancel" label="キャンセル" title="キャンセル"
+                            onclick={handleConFirmToRemove}></lightning-button>
+                        <lightning-button variant="brand" name="confirm" label="削除" title="削除"
+                            onclick={handleConFirmToRemove}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </lightning-card>
+    <!-- <lightning-icon icon-name="standard:task" alternative-text="Task" title="Task"></lightning-icon> -->
+    <!--remove confim close-->
+</template>
